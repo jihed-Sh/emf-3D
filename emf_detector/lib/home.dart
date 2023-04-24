@@ -1,4 +1,5 @@
 import 'package:emf_detector/utils/colors.dart';
+import 'package:emf_detector/widgets/ArVisualizer.dart';
 import 'package:emf_detector/widgets/mainReading.dart';
 import 'package:emf_detector/widgets/meterReading.dart';
 import 'package:emf_detector/widgets/xyzReading.dart';
@@ -37,8 +38,14 @@ class _HomeState extends State<Home> {
                             borderRadius: BorderRadius.circular(100),
                             side: const BorderSide(color: Colors.white))),
                         backgroundColor:
-                        MaterialStateProperty.all(AppColors.primaryColor)),
-                    onPressed: () {},
+                            MaterialStateProperty.all(AppColors.primaryColor)),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  const LocalAndWebObjectsView()));
+                    },
                     child: const Text('Visualize')),
               ),
               const SizedBox(
