@@ -85,7 +85,7 @@ class _LocalAndWebObjectsViewState extends State<LocalAndWebObjectsView> {
     this.arSessionManager.onInitialize(
           showFeaturePoints: false,
           showPlanes: true,
-          customPlaneTexturePath: "emf_detector/assets/triangle.png",
+          // customPlaneTexturePath: "emf_detector/assets/triangle.png",
           showWorldOrigin: true,
           handleTaps: false,
         );
@@ -99,7 +99,7 @@ class _LocalAndWebObjectsViewState extends State<LocalAndWebObjectsView> {
     } else {
       var newNode = ARNode(
           type: NodeType.localGLTF2,
-          uri: "emf-3D/emf_detector/assets/Chicken_01/Chicken_01.gltf",
+          uri: "assets/Chicken_01/Chicken_01.gltf",
           scale: Vector3(0.2, 0.2, 0.2),
           position: Vector3(0.0, 0.0, 0.0),
           rotation: Vector4(1.0, 0.0, 0.0, 0.0));
@@ -113,13 +113,13 @@ class _LocalAndWebObjectsViewState extends State<LocalAndWebObjectsView> {
       arObjectManager.removeNode(webObjectNode!);
       webObjectNode = null;
     } else {
-      var newNode = ARNode(
-          type: NodeType.webGLB,
-          uri:
-              "https://github.com/KhronosGroup/glTF-Sample-Models/raw/master/2.0/Fox/glTF-Binary/Fox.glb",
-          scale: Vector3(0.2, 0.2, 0.2));
-      bool? didAddWebNode = await arObjectManager.addNode(newNode);
-      webObjectNode = (didAddWebNode!) ? newNode : null;
+      // var newNode = ARNode(
+      //     type: NodeType.webGLB,
+      //     uri:
+      //         "https://github.com/KhronosGroup/glTF-Sample-Models/raw/master/2.0/Fox/glTF-Binary/Fox.glb",
+      //     scale: Vector3(0.2, 0.2, 0.2));
+      // bool? didAddWebNode = await arObjectManager.addNode(newNode);
+      // webObjectNode = (didAddWebNode!) ? newNode : null;
     }
   }
 }
