@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:ar_flutter_plugin/ar_flutter_plugin.dart';
 import 'package:ar_flutter_plugin/datatypes/node_types.dart';
 import 'package:ar_flutter_plugin/managers/ar_anchor_manager.dart';
@@ -18,7 +20,7 @@ class LocalAndWebObjectsView extends StatefulWidget {
 class _LocalAndWebObjectsViewState extends State<LocalAndWebObjectsView> {
   late ARSessionManager arSessionManager;
   late ARObjectManager arObjectManager;
-
+  bool startOrStop = true;
   //String localObjectReference;
   ARNode? localObjectNode;
 
@@ -55,15 +57,14 @@ class _LocalAndWebObjectsViewState extends State<LocalAndWebObjectsView> {
               children: [
                 Expanded(
                   child: ElevatedButton(
-                      onPressed: startMesuring, child: const Text("Start")),
+                      onPressed: () {
+                        renderAR();
+                        setState(() {
+                          startOrStop = !startOrStop;
+                        });
+                      },
+                      child: Text(startOrStop ? "Start" : "Stop")),
                 ),
-                const SizedBox(
-                  width: 10,
-                ),
-                Expanded(
-                  child: ElevatedButton(
-                      onPressed: stopMesuring, child: const Text("Stop")),
-                )
               ],
             ),
           ],
@@ -83,14 +84,14 @@ class _LocalAndWebObjectsViewState extends State<LocalAndWebObjectsView> {
     this.arSessionManager.onInitialize(
           showFeaturePoints: false,
           showPlanes: false,
-         // customPlaneTexturePath: "emf_detector/assets/triangle.png",
+          // customPlaneTexturePath: "emf_detector/assets/triangle.png",
           showWorldOrigin: false,
           handleTaps: false,
         );
     this.arObjectManager.onInitialize();
   }
 
-  Future<void> startMesuring() async {
+  Future<void> startMesuring1() async {
     if (localObjectNode != null) {
       arObjectManager.removeNode(localObjectNode!);
       localObjectNode = null;
@@ -107,11 +108,12 @@ class _LocalAndWebObjectsViewState extends State<LocalAndWebObjectsView> {
     }
   }
 
-  Future<void> stopMesuring() async {
-    if (webObjectNode != null) {
-      arObjectManager.removeNode(webObjectNode!);
-      webObjectNode = null;
-    } else {
+  Future<void> renderAR() async {
+    // if (webObjectNode != null) {
+    //   arObjectManager.removeNode(webObjectNode!);
+    //   webObjectNode = null;
+    // } else {
+    while (startOrStop) {
       var newNode = ARNode(
           type: NodeType.webGLB,
           uri:
@@ -119,6 +121,16 @@ class _LocalAndWebObjectsViewState extends State<LocalAndWebObjectsView> {
           scale: Vector3(0.01, 0.01, 0.01));
       bool? didAddWebNode = await arObjectManager.addNode(newNode);
       webObjectNode = (didAddWebNode!) ? newNode : null;
+      sleep(Duration(seconds: 1));
     }
   }
+
+  // void renderOrStop() {
+  //   if(startOrStop){
+  //     startMesuring();
+  //   }
+  //   else{
+  //     renderAR();
+  //   }
+  // }
 }
