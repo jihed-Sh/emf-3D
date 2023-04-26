@@ -10,7 +10,6 @@ import 'models/magnitudeProvider.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
-
   @override
   _HomeState createState() => _HomeState();
 }
@@ -64,9 +63,10 @@ class _HomeState extends State<Home> {
                           backgroundColor: MaterialStateProperty.all(
                               AppColors.primaryColor)),
                       onPressed: () {
+                        model.startCalculating=!model.startCalculating;
                         model.changeValues();
                       },
-                      child: const Text('Start')),
+                      child:  Text(!model.startCalculating?'Start':'Stop')),
                 ),
               ),
 

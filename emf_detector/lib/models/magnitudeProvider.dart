@@ -16,39 +16,46 @@ class MagnitudeProvider extends ChangeNotifier {
   Vector3 _accelerometer = Vector3.zero();
   Vector3 _absoluteOrientation2 = Vector3.zero();
   int? groupvalue = 2;
+  bool startCalculating=false;
 
   changeValues() {
-    motionSensors.magnetometer.listen((MagnetometerEvent event) async {
-      magnetometer.setValues(event.x, event.y, event.z);
+
+    if(startCalculating){
+      motionSensors.magnetometer.listen((MagnetometerEvent event) async {
+        magnetometer.setValues(event.x, event.y, event.z);
 
 
 
-      var matrix =
-      motionSensors.getRotationMatrix(_accelerometer, magnetometer);
-      _absoluteOrientation2.setFrom(motionSensors.getOrientation(matrix));
-      x = magnetometer.x;
-      y = magnetometer.y;
-      z = magnetometer.z;
+        var matrix =
+        motionSensors.getRotationMatrix(_accelerometer, magnetometer);
+        _absoluteOrientation2.setFrom(motionSensors.getOrientation(matrix));
+        x = magnetometer.x;
+        y = magnetometer.y;
+        z = magnetometer.z;
 
 
-      magnitude = sqrt((pow(magnetometer.x, 2)) +
-          (pow(magnetometer.y, 2)) +
-          (pow(magnetometer.z, 2)));
+        magnitude = sqrt((pow(magnetometer.x, 2)) +
+            (pow(magnetometer.y, 2)) +
+            (pow(magnetometer.z, 2)));
 
 
 
-      var emfData = EmfData( magnitude);
-      emfDataList.add(emfData);
+        var emfData = EmfData( magnitude);
+        emfDataList.add(emfData);
 
-      // remove the oldest EMF value if the list is too long
-      if (emfDataList.length > 40) {
-        emfDataList.removeAt(0);
-      }
-      // emfDataList.forEach((element) {print(element);});
+        // remove the oldest EMF value if the list is too long
+        if (emfDataList.length > 40) {
+          emfDataList.removeAt(0);
+        }
+        // emfDataList.forEach((element) {print(element);});
 
-      print(emfDataList);
-      notifyListeners();
-    });
+        print(emfDataList);
+
+        notifyListeners();
+      });
+    }else{
+      ///AB3eth li back
+    }
   }
 
   setUpdateInterval(int? groupValue, int interval) {

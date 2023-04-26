@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable, OnInit} from '@angular/core';
 import { Subject } from 'rxjs';
 
 export interface AppConfig {
@@ -22,7 +22,7 @@ interface LayoutState {
 @Injectable({
     providedIn: 'root',
 })
-export class LayoutService {
+export class LayoutService{
 
     config: AppConfig = {
         ripple: false,
@@ -51,23 +51,24 @@ export class LayoutService {
     overlayOpen$ = this.overlayOpen.asObservable();
 
     onMenuToggle() {
-        if (this.isOverlay()) {
-            this.state.overlayMenuActive = !this.state.overlayMenuActive;
-            if (this.state.overlayMenuActive) {
-                this.overlayOpen.next(null);
-            }
-        }
-
-        if (this.isDesktop()) {
-            this.state.staticMenuDesktopInactive = !this.state.staticMenuDesktopInactive;
-        }
-        else {
-            this.state.staticMenuMobileActive = !this.state.staticMenuMobileActive;
-
-            if (this.state.staticMenuMobileActive) {
-                this.overlayOpen.next(null);
-            }
-        }
+        this.state.staticMenuDesktopInactive = true;
+        // if (this.isOverlay()) {
+        //     this.state.overlayMenuActive = !this.state.overlayMenuActive;
+        //     if (this.state.overlayMenuActive) {
+        //         this.overlayOpen.next(null);
+        //     }
+        // }
+        //
+        // if (this.isDesktop()) {
+        //     this.state.staticMenuDesktopInactive = !this.state.staticMenuDesktopInactive;
+        // }
+        // else {
+        //     this.state.staticMenuMobileActive = !this.state.staticMenuMobileActive;
+        //
+        //     if (this.state.staticMenuMobileActive) {
+        //         this.overlayOpen.next(null);
+        //     }
+        // }
     }
 
     showProfileSidebar() {
@@ -96,5 +97,6 @@ export class LayoutService {
     onConfigUpdate() {
         this.configUpdate.next(this.config);
     }
+
 
 }

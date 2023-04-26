@@ -19,6 +19,7 @@ import {CheckboxModule} from "primeng/checkbox";
 import {InputTextModule} from "primeng/inputtext";
 import {PasswordModule} from "primeng/password";
 import {FormsModule} from "@angular/forms";
+import {ChartModule} from "primeng/chart";
 
 @NgModule({
     declarations: [
@@ -31,7 +32,8 @@ import {FormsModule} from "@angular/forms";
         CheckboxModule,
         InputTextModule,
         PasswordModule,
-        FormsModule
+        FormsModule,
+        ChartModule
     ],
     providers: [
         { provide: LocationStrategy, useClass: HashLocationStrategy },

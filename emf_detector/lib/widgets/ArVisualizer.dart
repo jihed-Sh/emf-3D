@@ -20,7 +20,7 @@ class LocalAndWebObjectsView extends StatefulWidget {
 class _LocalAndWebObjectsViewState extends State<LocalAndWebObjectsView> {
   late ARSessionManager arSessionManager;
   late ARObjectManager arObjectManager;
-  bool startOrStop = true;
+  bool startOrStop = false;
   //String localObjectReference;
   ARNode? localObjectNode;
 
@@ -57,13 +57,14 @@ class _LocalAndWebObjectsViewState extends State<LocalAndWebObjectsView> {
               children: [
                 Expanded(
                   child: ElevatedButton(
-                      onPressed: () {
-                        renderAR();
+                      onPressed: () async {
+
                         setState(() {
                           startOrStop = !startOrStop;
                         });
+                        renderAR();
                       },
-                      child: Text(startOrStop ? "Start" : "Stop")),
+                      child: Text(!startOrStop ? "Start" : "Stop")),
                 ),
               ],
             ),
@@ -113,15 +114,20 @@ class _LocalAndWebObjectsViewState extends State<LocalAndWebObjectsView> {
     //   arObjectManager.removeNode(webObjectNode!);
     //   webObjectNode = null;
     // } else {
+    double i=0;
     while (startOrStop) {
-      var newNode = ARNode(
+      var newNode = new ARNode(
           type: NodeType.webGLB,
+          position:Vector3(0.0+i, 0.0, 0.0+i) ,
+          //rotation: Vector4(0, 45, 0, 0) ,
           uri:
               "https://github.com/KhronosGroup/glTF-Sample-Models/raw/master/2.0/AnimatedMorphCube/glTF-Binary/AnimatedMorphCube.glb",
-          scale: Vector3(0.01, 0.01, 0.01));
+          scale: Vector3(0.001, 0.001, 0.001));
       bool? didAddWebNode = await arObjectManager.addNode(newNode);
+
       webObjectNode = (didAddWebNode!) ? newNode : null;
-      sleep(Duration(seconds: 1));
+      sleep(Duration(milliseconds: 150));
+      i+=0.0007;
     }
   }
 
