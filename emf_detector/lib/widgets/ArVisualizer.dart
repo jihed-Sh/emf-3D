@@ -55,16 +55,14 @@ class _LocalAndWebObjectsViewState extends State<LocalAndWebObjectsView> {
               children: [
                 Expanded(
                   child: ElevatedButton(
-                      onPressed: onLocalObjectButtonPressed,
-                      child: const Text("Add / Remove Local Object")),
+                      onPressed: startMesuring, child: const Text("Start")),
                 ),
                 const SizedBox(
                   width: 10,
                 ),
                 Expanded(
                   child: ElevatedButton(
-                      onPressed: onWebObjectAtButtonPressed,
-                      child: const Text("Add / Remove Web Object")),
+                      onPressed: stopMesuring, child: const Text("Stop")),
                 )
               ],
             ),
@@ -85,21 +83,22 @@ class _LocalAndWebObjectsViewState extends State<LocalAndWebObjectsView> {
     this.arSessionManager.onInitialize(
           showFeaturePoints: false,
           showPlanes: true,
-          // customPlaneTexturePath: "emf_detector/assets/triangle.png",
+          customPlaneTexturePath: "emf_detector/assets/triangle.png",
           showWorldOrigin: true,
           handleTaps: false,
         );
     this.arObjectManager.onInitialize();
   }
 
-  Future<void> onLocalObjectButtonPressed() async {
+  Future<void> startMesuring() async {
     if (localObjectNode != null) {
       arObjectManager.removeNode(localObjectNode!);
       localObjectNode = null;
     } else {
+      // var newN= ARNode(type: type, uri: uri)
       var newNode = ARNode(
           type: NodeType.localGLTF2,
-          uri: "assets/Chicken_01/Chicken_01.gltf",
+          uri: "assets/cube/cube.gltf",
           scale: Vector3(0.2, 0.2, 0.2),
           position: Vector3(0.0, 0.0, 0.0),
           rotation: Vector4(1.0, 0.0, 0.0, 0.0));
@@ -108,18 +107,18 @@ class _LocalAndWebObjectsViewState extends State<LocalAndWebObjectsView> {
     }
   }
 
-  Future<void> onWebObjectAtButtonPressed() async {
+  Future<void> stopMesuring() async {
     if (webObjectNode != null) {
       arObjectManager.removeNode(webObjectNode!);
       webObjectNode = null;
     } else {
-      // var newNode = ARNode(
-      //     type: NodeType.webGLB,
-      //     uri:
-      //         "https://github.com/KhronosGroup/glTF-Sample-Models/raw/master/2.0/Fox/glTF-Binary/Fox.glb",
-      //     scale: Vector3(0.2, 0.2, 0.2));
-      // bool? didAddWebNode = await arObjectManager.addNode(newNode);
-      // webObjectNode = (didAddWebNode!) ? newNode : null;
+      var newNode = ARNode(
+          type: NodeType.webGLB,
+          uri:
+              "https://github.com/KhronosGroup/glTF-Sample-Models/raw/master/2.0/Fox/glTF-Binary/Fox.glb",
+          scale: Vector3(0.2, 0.2, 0.2));
+      bool? didAddWebNode = await arObjectManager.addNode(newNode);
+      webObjectNode = (didAddWebNode!) ? newNode : null;
     }
   }
 }
