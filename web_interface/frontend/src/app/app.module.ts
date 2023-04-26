@@ -14,6 +14,11 @@ import { PhotoService } from './demo/service/photo.service';
 import { HomePageComponent } from './home-page/home-page.component';
 import { LoginPageComponent } from './login-page/login-page.component';
 import { SkeletonPageComponent } from './skeleton-page/skeleton-page.component';
+import {ButtonModule} from "primeng/button";
+import {CheckboxModule} from "primeng/checkbox";
+import {InputTextModule} from "primeng/inputtext";
+import {PasswordModule} from "primeng/password";
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
     declarations: [
@@ -21,7 +26,12 @@ import { SkeletonPageComponent } from './skeleton-page/skeleton-page.component';
     ],
     imports: [
         AppRoutingModule,
-        AppLayoutModule
+        AppLayoutModule,
+        ButtonModule,
+        CheckboxModule,
+        InputTextModule,
+        PasswordModule,
+        FormsModule
     ],
     providers: [
         { provide: LocationStrategy, useClass: HashLocationStrategy },

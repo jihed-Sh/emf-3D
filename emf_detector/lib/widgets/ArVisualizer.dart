@@ -82,9 +82,9 @@ class _LocalAndWebObjectsViewState extends State<LocalAndWebObjectsView> {
 
     this.arSessionManager.onInitialize(
           showFeaturePoints: false,
-          showPlanes: true,
-          customPlaneTexturePath: "emf_detector/assets/triangle.png",
-          showWorldOrigin: true,
+          showPlanes: false,
+         // customPlaneTexturePath: "emf_detector/assets/triangle.png",
+          showWorldOrigin: false,
           handleTaps: false,
         );
     this.arObjectManager.onInitialize();
@@ -98,7 +98,7 @@ class _LocalAndWebObjectsViewState extends State<LocalAndWebObjectsView> {
       // var newN= ARNode(type: type, uri: uri)
       var newNode = ARNode(
           type: NodeType.localGLTF2,
-          uri: "assets/cube/Cube.gltf",
+          uri: "assets/Chicken_01/Cube_BaseColor.png",
           scale: Vector3(0.2, 0.2, 0.2),
           position: Vector3(0.0, 0.0, 0.0),
           rotation: Vector4(1.0, 0.0, 0.0, 0.0));
@@ -115,8 +115,8 @@ class _LocalAndWebObjectsViewState extends State<LocalAndWebObjectsView> {
       var newNode = ARNode(
           type: NodeType.webGLB,
           uri:
-              "https://github.com/KhronosGroup/glTF-Sample-Models/raw/master/2.0/Fox/glTF-Binary/Fox.glb",
-          scale: Vector3(0.2, 0.2, 0.2));
+              "https://github.com/KhronosGroup/glTF-Sample-Models/raw/master/2.0/AnimatedMorphCube/glTF-Binary/AnimatedMorphCube.glb",
+          scale: Vector3(0.01, 0.01, 0.01));
       bool? didAddWebNode = await arObjectManager.addNode(newNode);
       webObjectNode = (didAddWebNode!) ? newNode : null;
     }
