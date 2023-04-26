@@ -10,7 +10,6 @@ class MagnitudeProvider extends ChangeNotifier {
   double y = 0;
   double z = 0;
   double magnitude = 0;
-  Position? _currentPosition;
   List<EmfData> emfDataList =[];
 
   Vector3 magnetometer = Vector3.zero();
@@ -23,10 +22,7 @@ class MagnitudeProvider extends ChangeNotifier {
       magnetometer.setValues(event.x, event.y, event.z);
 
 
-      _currentPosition = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high,
-        timeLimit: const Duration(seconds: 5),
-      );
+
       var matrix =
       motionSensors.getRotationMatrix(_accelerometer, magnetometer);
       _absoluteOrientation2.setFrom(motionSensors.getOrientation(matrix));
@@ -41,8 +37,7 @@ class MagnitudeProvider extends ChangeNotifier {
 
 
 
-      var currentLocation = LatLng(_currentPosition!.latitude, _currentPosition!.longitude);
-      var emfData = EmfData(currentLocation, magnitude);
+      var emfData = EmfData( magnitude);
       emfDataList.add(emfData);
 
       // remove the oldest EMF value if the list is too long
@@ -66,8 +61,7 @@ class MagnitudeProvider extends ChangeNotifier {
 
 
 class EmfData {
-  final LatLng location;
   final double emfValue;
 
-  EmfData(this.location, this.emfValue);
+  EmfData(this.emfValue);
 }
