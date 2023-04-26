@@ -98,7 +98,7 @@ class _LocalAndWebObjectsViewState extends State<LocalAndWebObjectsView> {
       // var newN= ARNode(type: type, uri: uri)
       var newNode = ARNode(
           type: NodeType.localGLTF2,
-          uri: "assets/cube/cube.gltf",
+          uri: "assets/cube/Cube.gltf",
           scale: Vector3(0.2, 0.2, 0.2),
           position: Vector3(0.0, 0.0, 0.0),
           rotation: Vector4(1.0, 0.0, 0.0, 0.0));
