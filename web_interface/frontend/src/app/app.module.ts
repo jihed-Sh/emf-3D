@@ -20,6 +20,8 @@ import {InputTextModule} from "primeng/inputtext";
 import {PasswordModule} from "primeng/password";
 import {FormsModule} from "@angular/forms";
 import {ChartModule} from "primeng/chart";
+import {ElectroService} from "./service/ElectroService";
+import {TableModule} from "primeng/table";
 
 @NgModule({
     declarations: [
@@ -33,12 +35,13 @@ import {ChartModule} from "primeng/chart";
         InputTextModule,
         PasswordModule,
         FormsModule,
-        ChartModule
+        ChartModule,
+        TableModule
     ],
     providers: [
         { provide: LocationStrategy, useClass: HashLocationStrategy },
         CountryService, CustomerService, EventService, IconService, NodeService,
-        PhotoService, ProductService
+        PhotoService, ProductService,ElectroService
     ],
     bootstrap: [AppComponent]
 })

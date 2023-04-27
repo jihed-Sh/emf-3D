@@ -1,23 +1,65 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {ElectroService} from "../service/ElectroService";
 
 @Component({
   selector: 'app-home-page',
   templateUrl: './home-page.component.html',
   styleUrls: ['./home-page.component.scss']
 })
-export class HomePageComponent {
+export class HomePageComponent implements OnInit{
+
     lineData: any;
     barData: any;
     barOptions: any;
     lineOptions: any;
     pieData: any;
     pieOptions: any;
-    polarData: any;
-    polarOptions: any;
-    radarData: any;
-    radarOptions: any;
+     zValues: any | number=[];
+     xValues:any |number=[];
+     yValues:any |number=[];
+     emfValues:any |number=[];
+    equipements=[
+        {
+            name:"Pc",
+            statue:"Medium",
+            date:"2023/04/12"
+        },
+        {
+            name:"Voltmeter",
+            statue:"Medium",
+            date:"2023/03/17"
+        },
+        {
+            name:"Phone",
+            statue:"Medium",
+            date:"2023/1/27"
+        }
+    ] ;
+    constructor(private electroService:ElectroService) {
+    }
+
     ngOnInit() {
-        this.initCharts();
+        this.electroService.getData().subscribe(
+            {
+                next:value =>{
+                    this.zValues=value.zvalues;
+                    this.xValues=value.xvalues;
+                    this.yValues=value.yvalues;
+                    this.emfValues=value.emfValues;
+                    console.log(this.zValues)
+                    console.log(this.xValues)
+                    console.log(this.yValues)
+                    console.log(this.emfValues)
+                    this.initCharts();
+                },
+                error:(e)=>{
+                    console.log("error")
+                }
+            }
+
+        )
+
+
     }
 
     initCharts() {
@@ -25,7 +67,6 @@ export class HomePageComponent {
         const textColor = documentStyle.getPropertyValue('--text-color');
         const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
         const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
-
         this.barData = {
             labels: Array(40).fill(' ').join(''),
             datasets: [
@@ -33,17 +74,10 @@ export class HomePageComponent {
                     label: 'My First dataset',
                     backgroundColor: documentStyle.getPropertyValue('--primary-500'),
                     borderColor: documentStyle.getPropertyValue('--primary-500'),
-                    data: [65, 59, 80, 81, 56, 55, 40]
+                    data: this.emfValues
                 },
-                // {
-                //     label: 'My Second dataset',
-                //     backgroundColor: documentStyle.getPropertyValue('--primary-200'),
-                //     borderColor: documentStyle.getPropertyValue('--primary-200'),
-                //     data: [28, 48, 40, 19, 86, 27, 90]
-                // }
             ]
         };
-
         this.barOptions = {
             plugins: {
                 legend: {
@@ -76,25 +110,23 @@ export class HomePageComponent {
                 },
             }
         };
-
         this.pieData = {
-            labels: ['A', 'B', 'C'],
+            labels: ['High Danger', 'Medium', 'Low'],
             datasets: [
                 {
                     data: [540, 325, 702],
                     backgroundColor: [
-                        documentStyle.getPropertyValue('--indigo-500'),
-                        documentStyle.getPropertyValue('--purple-500'),
-                        documentStyle.getPropertyValue('--teal-500')
+                        documentStyle.getPropertyValue('--red-500'),
+                        documentStyle.getPropertyValue('--orange-500'),
+                        documentStyle.getPropertyValue('--green-500')
                     ],
                     hoverBackgroundColor: [
-                        documentStyle.getPropertyValue('--indigo-400'),
-                        documentStyle.getPropertyValue('--purple-400'),
-                        documentStyle.getPropertyValue('--teal-400')
+                        documentStyle.getPropertyValue('--red-400'),
+                        documentStyle.getPropertyValue('--orange-400'),
+                        documentStyle.getPropertyValue('--green-400')
                     ]
                 }]
         };
-
         this.pieOptions = {
             plugins: {
                 legend: {
@@ -105,13 +137,12 @@ export class HomePageComponent {
                 }
             }
         };
-
         this.lineData = {
-            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July','njcdhj'],
+            labels: Array(40).fill(' ').join(''),
             datasets: [
                 {
                     label: 'X',
-                    data: [65, 59, 80, 81, 56, 55, 40],
+                    data: this.xValues,
                     fill: false,
                     backgroundColor: documentStyle.getPropertyValue('--purple-500'),
                     borderColor: documentStyle.getPropertyValue('--purple-500'),
@@ -119,7 +150,7 @@ export class HomePageComponent {
                 },
                 {
                     label: 'Y',
-                    data: [28, 48, 40, 19, 86, 27, 90],
+                    data: this.yValues,
                     fill: false,
                     backgroundColor: documentStyle.getPropertyValue('--primary-500'),
                     borderColor: documentStyle.getPropertyValue('--primary-500'),
@@ -127,7 +158,7 @@ export class HomePageComponent {
                 },
                 {
                     label: 'Z',
-                    data: [100, 300, 400, 19, 324, 26, 798],
+                    data: this.zValues,
                     fill: false,
                     backgroundColor: documentStyle.getPropertyValue('--teal-300'),
                     borderColor: documentStyle.getPropertyValue('--teal-300'),
@@ -135,7 +166,6 @@ export class HomePageComponent {
                 }
             ]
         };
-
         this.lineOptions = {
             plugins: {
                 legend: {
@@ -166,86 +196,5 @@ export class HomePageComponent {
             }
         };
 
-        this.polarData = {
-            datasets: [{
-                data: [
-                    11,
-                    16,
-                    7,
-                    3
-                ],
-                backgroundColor: [
-                    documentStyle.getPropertyValue('--indigo-500'),
-                    documentStyle.getPropertyValue('--purple-500'),
-                    documentStyle.getPropertyValue('--teal-500'),
-                    documentStyle.getPropertyValue('--orange-500')
-                ],
-                label: 'My dataset'
-            }],
-            labels: [
-                'Indigo',
-                'Purple',
-                'Teal',
-                'Orange'
-            ]
-        };
-
-        this.polarOptions = {
-            plugins: {
-                legend: {
-                    labels: {
-                        color: textColor
-                    }
-                }
-            },
-            scales: {
-                r: {
-                    grid: {
-                        color: surfaceBorder
-                    }
-                }
-            }
-        };
-
-        this.radarData = {
-            labels: ['Eating', 'Drinking', 'Sleeping', 'Designing', 'Coding', 'Cycling', 'Running'],
-            datasets: [
-                {
-                    label: 'My First dataset',
-                    borderColor: documentStyle.getPropertyValue('--indigo-400'),
-                    pointBackgroundColor: documentStyle.getPropertyValue('--indigo-400'),
-                    pointBorderColor: documentStyle.getPropertyValue('--indigo-400'),
-                    pointHoverBackgroundColor: textColor,
-                    pointHoverBorderColor: documentStyle.getPropertyValue('--indigo-400'),
-                    data: [65, 59, 90, 81, 56, 55, 40]
-                },
-                {
-                    label: 'My Second dataset',
-                    borderColor: documentStyle.getPropertyValue('--purple-400'),
-                    pointBackgroundColor: documentStyle.getPropertyValue('--purple-400'),
-                    pointBorderColor: documentStyle.getPropertyValue('--purple-400'),
-                    pointHoverBackgroundColor: textColor,
-                    pointHoverBorderColor: documentStyle.getPropertyValue('--purple-400'),
-                    data: [28, 48, 40, 19, 96, 27, 100]
-                }
-            ]
-        };
-
-        this.radarOptions = {
-            plugins: {
-                legend: {
-                    labels: {
-                        fontColor: textColor
-                    }
-                }
-            },
-            scales: {
-                r: {
-                    grid: {
-                        color: textColorSecondary
-                    }
-                }
-            }
-        };
     }
 }

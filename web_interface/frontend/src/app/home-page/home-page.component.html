@@ -1,35 +1,43 @@
 <div class="grid p-fluid">
     <div class="col-12 lg:col-6">
         <div class="card">
-            <h5>Linear Chart</h5>
+            <h5>Evolution of E(x),E(y),E(z) in time</h5>
             <p-chart type="line" [data]="lineData" [options]="lineOptions"></p-chart>
         </div>
 
         <div class="card flex flex-column align-items-center">
-            <h5 class="text-left w-full">Pie Chart</h5>
+            <h5 class="text-left w-full">Security stats</h5>
             <p-chart type="pie" [data]="pieData" [options]="pieOptions"></p-chart>
         </div>
 
-        <div class="card flex flex-column align-items-center">
-            <h5 class="text-left w-full">Polar Area Chart</h5>
-            <p-chart type="polarArea" [data]="polarData" [options]="polarOptions"></p-chart>
-        </div>
+
     </div>
     <div class="col-12 lg:col-6">
         <div class="card">
-            <h5>Bar Chart</h5>
+            <h5>Electro Map</h5>
             <p-chart type="bar" [data]="barData" [options]="barOptions"></p-chart>
         </div>
 
-        <div class="card flex flex-column align-items-center">
-            <h5 class="text-left w-full">Doughnut Chart</h5>
-            <p-chart type="doughnut" [data]="pieData" [options]="pieOptions"></p-chart>
+        <div class="card ">
+            <h5 class="text-left w-full">History</h5>
+            <p-table [value]="equipements" styleClass="p-datatable-striped" [tableStyle]="{'min-width': '50rem'}">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Name</th>
+                        <th>Statue</th>
+                        <th>Date</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-equipement>
+                    <tr>
+                        <td>{{equipement.name}}</td>
+                        <td>{{equipement.statue}}</td>
+                        <td>{{equipement.date}}</td>
+                    </tr>
+                </ng-template>
+            </p-table>
         </div>
 
-        <div class="card flex flex-column align-items-center">
-            <h5 class="text-left w-full">Radar Chart</h5>
-            <p-chart type="radar" [data]="radarData" [options]="radarOptions"></p-chart>
-        </div>
     </div>
 </div>
 

@@ -43,7 +43,8 @@ dependencies:
   syncfusion_flutter_charts:
   geolocator: ^9.0.2
   latlng: ^0.2.0
-#  arcore_flutter_plugin: ^0.1.0
+  http: ^0.13.5
+  #  arcore_flutter_plugin: ^0.1.0
 
   ar_flutter_plugin:
 

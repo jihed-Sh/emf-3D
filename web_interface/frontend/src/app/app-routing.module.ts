@@ -10,7 +10,7 @@ import {LoginPageComponent} from "./login-page/login-page.component";
     imports: [
         RouterModule.forRoot([
             {
-                path: '', component: AppLayoutComponent,
+                path: 'home', component: AppLayoutComponent,
                 children: [
                     {path:'',component:HomePageComponent},
                     {path:'wait',component:SkeletonPageComponent},
@@ -22,7 +22,7 @@ import {LoginPageComponent} from "./login-page/login-page.component";
                     // { path: 'pages', loadChildren: () => import('./demo/components/pages/pages.module').then(m => m.PagesModule) }
                 ]
             },
-            {path:'login',component:LoginPageComponent},
+            {path:'',component:LoginPageComponent},
             { path: 'auth', loadChildren: () => import('./demo/components/auth/auth.module').then(m => m.AuthModule) },
             // { path: 'landing', loadChildren: () => import('./demo/components/landing/landing.module').then(m => m.LandingModule) },
             { path: 'notfound', component: NotfoundComponent },
