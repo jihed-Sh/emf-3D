@@ -55,8 +55,8 @@ class MagnitudeProvider extends ChangeNotifier {
           xvalues.removeAt(0);
         }
         // emfDataList.forEach((element) {print(element);});
-
-        print(emfDataList);
+mag=magnitude;
+        //print(emfDataList);
 
         notifyListeners();
       });
@@ -66,11 +66,11 @@ class MagnitudeProvider extends ChangeNotifier {
       ///AB3eth li back
     }
   }
-
+double mag=0.0;
   setUpdateInterval(int? groupValue, int interval) {
     motionSensors.magnetometerUpdateInterval = interval;
     groupvalue = groupValue;
-    print(groupvalue);
+    //print(groupvalue);
     notifyListeners();
   }
   Future<bool> sendData(ElectroData data) async {
@@ -87,7 +87,7 @@ class MagnitudeProvider extends ChangeNotifier {
       }),
     );
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == 200 || response.statusCode == 201) {
       return true;
     } else {
       throw Exception('error');

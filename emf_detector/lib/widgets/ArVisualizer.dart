@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:ar_flutter_plugin/ar_flutter_plugin.dart';
 import 'package:ar_flutter_plugin/datatypes/node_types.dart';
@@ -7,8 +8,11 @@ import 'package:ar_flutter_plugin/managers/ar_location_manager.dart';
 import 'package:ar_flutter_plugin/managers/ar_object_manager.dart';
 import 'package:ar_flutter_plugin/managers/ar_session_manager.dart';
 import 'package:ar_flutter_plugin/models/ar_node.dart';
+import 'package:emf_detector/widgets/PostionReading.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:vector_math/vector_math_64.dart';
+import 'package:emf_detector/models/magnitudeProvider.dart';
 
 class LocalAndWebObjectsView extends StatefulWidget {
   const LocalAndWebObjectsView({Key? key}) : super(key: key);
@@ -16,9 +20,15 @@ class LocalAndWebObjectsView extends StatefulWidget {
   @override
   State<LocalAndWebObjectsView> createState() => _LocalAndWebObjectsViewState();
 }
-
+PositionReading pr = new PositionReading() ;
+//List currentPosition = pr.getPosition();
 class _LocalAndWebObjectsViewState extends State<LocalAndWebObjectsView> {
   late ARSessionManager arSessionManager;
+  @override
+  void initState() {
+   pr.initState();
+    super.initState();
+  }
   late ARObjectManager arObjectManager;
   bool startOrStop = false;
   //String localObjectReference;
@@ -102,8 +112,8 @@ class _LocalAndWebObjectsViewState extends State<LocalAndWebObjectsView> {
           type: NodeType.localGLTF2,
           uri: "assets/Chicken_01/Cube_BaseColor.png",
           scale: Vector3(0.2, 0.2, 0.2),
-          position: Vector3(0.0, 0.0, 0.0),
-          rotation: Vector4(1.0, 0.0, 0.0, 0.0));
+          position: Vector3(l[0], l[1], l[2]),
+          rotation: Vector4(0.0, 0.0, 0.0, 0.0));
       bool? didAddLocalNode = await arObjectManager.addNode(newNode);
       localObjectNode = (didAddLocalNode!) ? newNode : null;
     }
@@ -114,20 +124,28 @@ class _LocalAndWebObjectsViewState extends State<LocalAndWebObjectsView> {
     //   arObjectManager.removeNode(webObjectNode!);
     //   webObjectNode = null;
     // } else {
-    double i=0;
-    while (startOrStop) {
+double i=0;
+int k=0;
+double z=0;
+Random random = new Random();
+    while (startOrStop)  {
+      k=random.nextInt(30)+3;
+      for(int j=0 ;j<k;j++){
       var newNode = new ARNode(
           type: NodeType.webGLB,
-          position:Vector3(0.0+i, 0.0, 0.0+i) ,
+          position:Vector3(0+i,0+z,0),
           //rotation: Vector4(0, 45, 0, 0) ,
           uri:
               "https://github.com/KhronosGroup/glTF-Sample-Models/raw/master/2.0/AnimatedMorphCube/glTF-Binary/AnimatedMorphCube.glb",
-          scale: Vector3(0.001, 0.001, 0.001));
+          scale: Vector3(0.005, 0.005, 0.005));
       bool? didAddWebNode = await arObjectManager.addNode(newNode);
 
       webObjectNode = (didAddWebNode!) ? newNode : null;
       sleep(Duration(milliseconds: 150));
-      i+=0.0007;
+
+z+=0.0009;
+    }i+=0.004;
+      z=0;
     }
   }
 

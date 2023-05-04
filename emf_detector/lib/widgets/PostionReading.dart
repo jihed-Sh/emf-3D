@@ -4,20 +4,26 @@ import 'package:flutter/material.dart';
 import 'package:motion_sensors/motion_sensors.dart' as MagnetometerEvent;
 import 'package:sensors/sensors.dart';
 import 'package:vector_math/vector_math.dart';
+//
+List l = [];
 
-class PositionReading extends StatefulWidget {
-  const PositionReading({Key? key}) : super(key: key);
+class PositionReading {
+  List updatePosition()  {
+    accelerometerEvents.listen((AccelerometerEvent event) {
 
-  @override
-  _PositionReadingState createState() => _PositionReadingState();
-}
+        accelerometerEvent = event;
 
-class _PositionReadingState extends State<PositionReading> {
-  List getPosition() {
+    });
+
+    gyroscopeEvents.listen((GyroscopeEvent event) {
+
+        gyroscopeEvent = event;
+
+    });
     if (accelerometerEvent == null ||
         gyroscopeEvent == null ||
         magnetometerEvent == null) {
-      return [0.0, 0.0];
+
     }
 
     double ax = accelerometerEvent.x;
@@ -52,7 +58,7 @@ class _PositionReadingState extends State<PositionReading> {
     Quaternion mgFieldAsVector4;
     // mgFieldAsVector4.
     Quaternion magneticFieldInertialFrame =
-        (orientation * Quaternion.axisAngle(Vector3(1, 0, 0), magneticField.x));
+    (orientation * Quaternion.axisAngle(Vector3(1, 0, 0), magneticField.x));
     Quaternion gravityInertialFrame =
         orientation * Quaternion.axisAngle(Vector3(1, 0, 0), magneticField.x);
 
@@ -63,15 +69,21 @@ class _PositionReadingState extends State<PositionReading> {
 
     double x = magneticFieldInertialFrame.x;
     double y = magneticFieldInertialFrame.y;
-    List l = [];
-    l.add(x);
-    l.add(y);
+    double z = magneticFieldInertialFrame.z;
+
+      print("sssss");
+      l.add(x);
+      l.add(y);
+      l.add(z);
+
+
     return l;
   }
 
+
   late AccelerometerEvent accelerometerEvent;
   late GyroscopeEvent gyroscopeEvent;
-  late MagnetometerEvent.MagnetometerEvent magnetometerEvent;
+   MagnetometerEvent.MagnetometerEvent magnetometerEvent = new MagnetometerEvent.MagnetometerEvent(0.0,0.0,0.0);
   var magnetometerEvents;
   double filterFactor = 0.5;
   Quaternion orientation = Quaternion.identity();
@@ -79,35 +91,26 @@ class _PositionReadingState extends State<PositionReading> {
   Vector3 velocity = Vector3.zero();
   @override
   void initState() {
-    super.initState();
+
 
     accelerometerEvents.listen((AccelerometerEvent event) {
-      setState(() {
+
         accelerometerEvent = event;
-      });
+
     });
 
     gyroscopeEvents.listen((GyroscopeEvent event) {
-      setState(() {
+
         gyroscopeEvent = event;
-      });
+
     });
 
-    magnetometerEvents.listen((MagnetometerEvent.MagnetometerEvent event) {
-      setState(() {
-        magnetometerEvent = event;
-      });
-    });
+    // magnetometerEvents.listen((MagnetometerEvent.MagnetometerEvent? event) {
+    //   setState(() {
+    //     if(event != null)
+    //     magnetometerEvent = event;
+    //   });
+    // });
   }
 
-  @override
-  Widget build(BuildContext context) {
-    List position = getPosition();
-    return Scaffold(
-      body: Center(
-        child: Text('${position[0]}         ${position[1]}  ',
-            style: TextStyle(fontSize: 30)),
-      ),
-    );
-  }
 }

@@ -48,16 +48,7 @@ class _XYZReadingState extends State<XYZReading> {
           ),
         ),
         SizedBox(height: 20),
-        InkWell(
-            child: ElevatedButton(
-          onPressed: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => PositionReading()));
-          },
-          child: Text("see Postion test"),
-        )
-            // PositionReading(),
-            ),
+
         Consumer<MagnitudeProvider>(
           builder: (context, model, child) => Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
